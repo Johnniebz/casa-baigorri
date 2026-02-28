@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monta tu Armario | Casa Baigorri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #F7F4EF;
+            --warm-white: #FDFCFA;
+            --charcoal: #2C2C2C;
+            --walnut: #5C4033;
+            --gold: #C9A962;
+            --sage: #7A9B76;
+            --coral: #E07B67;
+            --sky: #5B8FA8;
+            --stone: #A69F95;
+            --shadow: rgba(44, 44, 44, 0.08);
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --error: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+        }
+
+        /* Fixed Help Button */
+        .help-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1rem;
+        }
+
+        .help-tooltip {
+            background: var(--charcoal);
+            color: var(--warm-white);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            max-width: 280px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .help-float:hover .help-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .help-tooltip strong {
+            color: var(--gold);
+        }
+
+        .help-btn {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--sage) 0%, #5A8A56 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(122, 155, 118, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(122, 155, 118, 0.5);
+        }
+
+        .help-btn-text {
+            background: var(--sage);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            padding: 1rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--warm-white);
+            box-shadow: 0 2px 20px var(--shadow);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--walnut);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .nav-steps {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: var(--stone);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-step.active {
+            background: var(--walnut);
+            color: var(--warm-white);
+        }
+
+        .nav-step.completed {
+            color: var(--sage);
+        }
+
+        .nav-step-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--stone);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .nav-step.active .nav-step-num {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        .nav-step.completed .nav-step-num {
+            background: var(--sage);
+        }
+
+        .nav-phone {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--walnut);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-phone:hover {
+            color: var(--gold);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 8rem 4rem 4rem;
+            background: linear-gradient(135deg, var(--walnut) 0%, #3D2B1F 100%);
+            color: var(--warm-white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A962' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--charcoal);
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .hero-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 4rem;
+            background: var(--warm-white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--charcoal);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .step-card::after {
+            content: '→';
+            position: absolute;
+            right: -1rem;
+            top: 3rem;
+            font-size: 1.5rem;
+            color: var(--stone);
+        }
+
+        .step-card:last-child::after {
+            display: none;
+        }
+
+        .step-num {
+            width: 60px;
+            height: 60px;
+            background: var(--walnut);
+            color: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .step-card p {
+            font-size: 0.9rem;
+            color: var(--stone);
+        }
+
+        /* Measurement Guide */
+        .measure-guide {
+            padding: 5rem 4rem;
+            background: var(--cream);
+        }
+
+        .measure-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .measure-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .measure-intro p {
+            color: var(--stone);
+            margin-top: 1rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .warning-icon {
+            font-size: 1.5rem;
+        }
+
+        .warning-box h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.25rem;
+        }
+
+        .warning-box p {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            opacity: 0.8;
+        }
+
+        .tools-needed {
+            background: var(--warm-white);
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tools-needed h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--stone);
+        }
+
+        .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            color: var(--charcoal);
+        }
+
+        .tool-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        /* Measurement Steps */
+        .measure-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .measure-step {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            background: var(--warm-white);
+            padding: 3rem;
+        }
+
+        .measure-step:nth-child(even) {
+            direction: rtl;
+        }
+
+        .measure-step:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .measure-step-content {
+            padding: 1rem;
+        }
+
+        .measure-step-num {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--walnut);
+            color: var(--gold);
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .measure-step h3 {
+            font-size: 1.8rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .measure-step > div > p {
+            color: var(--stone);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .measure-tips {
+            background: var(--cream);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .measure-tips h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--sage);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .measure-tips ul {
+            list-style: none;
+        }
+
+        .measure-tips li {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .measure-tips li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--sage);
+            font-weight: bold;
+        }
+
+        .measure-error {
+            background: #FFEBEE;
+            padding: 1rem 1.5rem;
+            margin-top: 1rem;
+            border-left: 3px solid var(--error);
+        }
+
+        .measure-error h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--error);
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .measure-error p {
+            font-size: 0.85rem;
+            color: var(--charcoal);
+        }
+
+        .measure-visual {
+            background: linear-gradient(135deg, #E8E2DA 0%, #D4CCC2 100%);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-diagram {
+            width: 80%;
+            height: 80%;
+            border: 2px dashed var(--walnut);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-label {
+            position: absolute;
+            background: var(--walnut);
+            color: var(--warm-white);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .visual-label.top {
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .visual-label.left {
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        .visual-label.bottom {
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .visual-arrow {
+            position: absolute;
+            background: var(--coral);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .visual-arrow.horizontal {
+            height: 30px;
+            width: 90%;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+        }
+
+        .visual-arrow.vertical {
+            width: 30px;
+            height: 90%;
+            left: 50%;
+            top: 5%;
+            transform: translateX(-50%);
+        }
+
+        .visual-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            border: 3px solid var(--charcoal);
+        }
+
+        /* Input Form Styling */
+        .measure-input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #E0D9D0;
+            padding: 0.5rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group:focus-within {
+            border-color: var(--gold);
+        }
+
+        .input-group label {
+            padding: 0 1rem;
+            font-size: 0.85rem;
+            color: var(--stone);
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100px;
+            padding: 0.75rem;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            text-align: center;
+        }
+
+        .input-group input:focus {
+            outline: none;
+        }
+
+        .input-group span {
+            padding: 0 1rem;
+            font-size: 0.9rem;
+            color: var(--stone);
+        }
+
+        .input-validation {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .input-validation.valid {
+            background: #E8F5E9;
+            color: var(--success);
+        }
+
+        .input-validation.warning {
+            background: #FFF3E0;
+            color: var(--warning);
+        }
+
+        .input-validation.error {
+            background: #FFEBEE;
+            color: var(--error);
+        }
+
+        /* Configurator Preview */
+        .configurator {
+            padding: 5rem 4rem;
+            background: var(--charcoal);
+            color: var(--warm-white);
+        }
+
+        .config-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 4rem;
+        }
+
+        .config-preview {
+            background: linear-gradient(135deg, #3D3D3D 0%, #2A2A2A 100%);
+            padding: 3rem;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .wardrobe-preview {
+            width: 80%;
+            height: 400px;
+            border: 3px solid var(--gold);
+            position: relative;
+            display: flex;
+        }
+
+        .wardrobe-section {
+            flex: 1;
+            border-right: 2px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wardrobe-section:last-child {
+            border-right: none;
+        }
+
+        .wardrobe-shelf {
+            border-bottom: 1px solid var(--stone);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--stone);
+        }
+
+        .wardrobe-hanging {
+            flex: 2;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 1rem;
+            color: var(--stone);
+            font-size: 0.75rem;
+        }
+
+        .config-dimensions {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--charcoal);
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+        }
+
+        .config-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .config-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .config-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .config-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .config-option:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .config-option.selected {
+            border-color: var(--gold);
+            background: rgba(201, 169, 98, 0.1);
+        }
+
+        .config-option-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .config-option-label {
+            font-size: 0.85rem;
+        }
+
+        .config-colors {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .config-color {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .config-color:hover {
+            transform: scale(1.1);
+        }
+
+        .config-color.selected {
+            border-color: var(--gold);
+        }
+
+        .config-summary {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        .config-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+        }
+
+        .config-price-label {
+            font-size: 0.9rem;
+            color: var(--stone);
+        }
+
+        .config-price-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .config-price-note {
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-bottom: 1.5rem;
+        }
+
+        .config-cta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--charcoal);
+            padding: 1rem 2rem;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--warm-white);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--warm-white);
+            padding: 1rem 2rem;
+            border: 2px solid var(--warm-white);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--warm-white);
+            color: var(--charcoal);
+        }
+
+        /* Guarantees */
+        .guarantees {
+            padding: 4rem;
+            background: var(--warm-white);
+        }
+
+        .guarantees-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .guarantee {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .guarantee-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .guarantee h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .guarantee p {
+            font-size: 0.85rem;
+            color: var(--stone);
+        }
+
+        /* Call Specialist CTA */
+        .specialist-cta {
+            padding: 5rem 4rem;
+            background: linear-gradient(135deg, var(--sage) 0%, #5A8A56 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .specialist-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .specialist-cta p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .specialist-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .specialist-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            color: var(--charcoal);
+            padding: 1.25rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .specialist-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .specialist-btn-icon {
+            font-size: 1.5rem;
+        }
+
+        .specialist-btn span {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--stone);
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            padding: 2rem 4rem;
+            color: var(--stone);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-steps {
+                display: none;
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .step-card::after {
+                display: none;
+            }
+
+            .measure-step {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .measure-step:nth-child(even) {
+                direction: ltr;
+            }
+
+            .config-container {
+                grid-template-columns: 1fr;
+            }
+
+            .guarantees-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero,
+            .how-it-works,
+            .measure-guide,
+            .configurator,
+            .guarantees,
+            .specialist-cta {
+                padding: 3rem 1.5rem;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .measure-step {
+                padding: 1.5rem;
+            }
+
+            .guarantees-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .measure-input {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-group {
+                justify-content: center;
+            }
+
+            .help-float {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .help-btn {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">Casa <span>Baigorri</span></a>
+        <div class="nav-steps">
+            <a href="#medir" class="nav-step active">
+                <span class="nav-step-num">1</span>
+                Medir
+            </a>
+            <a href="#configurar" class="nav-step">
+                <span class="nav-step-num">2</span>
+                Configurar
+            </a>
+            <a href="#pedir" class="nav-step">
+                <span class="nav-step-num">3</span>
+                Pedir
+            </a>
+        </div>
+        <a href="tel:+34912345678" class="nav-phone">
+            <span>📞</span>
+            +34 912 345 678
+        </a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">Nuevo</span>
+            <h1>Monta tu Armario a Medida</h1>
+            <p>Diseña el armario perfecto para tu espacio desde casa. Te guiamos paso a paso para que midas correctamente y configures tu armario ideal.</p>
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">📏</div>
+                    <span>Guía de medición clara</span>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">🛠️</div>
+                    <span>Configurador 3D</span>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">🚚</div>
+                    <span>Instalación incluida</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="section-header">
+            <span class="section-tag">Cómo funciona</span>
+            <h2>Tu armario en 4 sencillos pasos</h2>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h3>Mide tu espacio</h3>
+                <p>Sigue nuestra guía detallada para tomar las medidas correctas de tu hueco.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h3>Configura tu armario</h3>
+                <p>Elige el interior, puertas, acabados y todos los detalles.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h3>Validamos tu pedido</h3>
+                <p>Nuestro equipo revisa las medidas y te confirma el presupuesto.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">4</div>
+                <h3>Instalación</h3>
+                <p>Fabricamos y montamos tu armario en 3-4 semanas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Measurement Guide -->
+    <section class="measure-guide" id="medir">
+        <div class="measure-container">
+            <div class="measure-intro">
+                <span class="section-tag">Paso 1</span>
+                <h2>Guía de Medición</h2>
+                <p>Tómate tu tiempo para medir bien. Una medición correcta es clave para un armario perfecto.</p>
+                
+                <div class="warning-box">
+                    <span class="warning-icon">⚠️</span>
+                    <div>
+                        <h4>Importante</h4>
+                        <p>Si tienes dudas en cualquier momento, llámanos. Preferimos ayudarte a medir que corregir errores después.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tools-needed">
+                <h4>Vas a necesitar:</h4>
+                <div class="tool-item">
+                    <span class="tool-icon">📏</span>
+                    <span>Metro (mínimo 3m)</span>
+                </div>
+                <div class="tool-item">
+                    <span class="tool-icon">📝</span>
+                    <span>Papel y lápiz</span>
+                </div>
+                <div class="tool-item">
+                    <span class="tool-icon">📱</span>
+                    <span>Móvil (para fotos)</span>
+                </div>
+                <div class="tool-item">
+                    <span class="tool-icon">🪜</span>
+                    <span>Escalera o taburete</span>
+                </div>
+            </div>
+
+            <div class="measure-steps">
+                <!-- Step 1: Width -->
+                <div class="measure-step">
+                    <div class="measure-step-content">
+                        <span class="measure-step-num">Medida 1 de 4 — ANCHO</span>
+                        <h3>Mide el ancho del hueco</h3>
+                        <p>Esta es la medida más importante. Mide el ancho en <strong>tres puntos diferentes</strong>: arriba, en medio y abajo. Las paredes nunca son perfectamente rectas.</p>
+                        
+                        <div class="measure-input">
+                            <div class="input-group">
+                                <label>Arriba</label>
+                                <input type="number" id="width-top" placeholder="0">
+                                <span>cm</span>
+                            </div>
+                            <div class="input-group">
+                                <label>Medio</label>
+                                <input type="number" id="width-mid" placeholder="0">
+                                <span>cm</span>
+                            </div>
+                            <div class="input-group">
+                                <label>Abajo</label>
+                                <input type="number" id="width-bot" placeholder="0">
+                                <span>cm</span>
+                            </div>
+                        </div>
+
+                        <div class="measure-tips">
+                            <h4>💡 Consejos clave</h4>
+                            <ul>
+                                <li>Mide siempre de pared a pared, no del marco</li>
+                                <li>Usa la medida MÁS PEQUEÑA de las tres</li>
+                                <li>Estira bien el metro, sin que curve</li>
+                                <li>Pide ayuda si el hueco es muy ancho</li>
+                            </ul>
+                        </div>
+
+                        <div class="measure-error">
+                            <h4>❌ Error común</h4>
+                            <p>Medir solo en un punto. Si la pared tiene una desviación de 2cm, el armario no encajará.</p>
+                        </div>
+                    </div>
+                    <div class="measure-visual">
+                        <div class="visual-diagram">
+                            <span class="visual-label top">Medida arriba</span>
+                            <span class="visual-label bottom">Medida abajo</span>
+                            <div class="visual-arrow horizontal">← ANCHO →</div>
+                            <span class="visual-point" style="top: 10px; left: 10px;"></span>
+                            <span class="visual-point" style="top: 10px; right: 10px;"></span>
+                            <span class="visual-point" style="bottom: 10px; left: 10px;"></span>
+                            <span class="visual-point" style="bottom: 10px; right: 10px;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Height -->
+                <div class="measure-step">
+                    <div class="measure-step-content">
+                        <span class="measure-step-num">Medida 2 de 4 — ALTO</span>
+                        <h3>Mide la altura del hueco</h3>
+                        <p>Mide desde el suelo hasta el techo en <strong>tres puntos</strong>: izquierda, centro y derecha. Los techos también pueden tener desniveles.</p>
+                        
+                        <div class="measure-input">
+                            <div class="input-group">
+                                <label>Izquierda</label>
+                                <input type="number" id="height-left" placeholder="0">
+                                <span>cm</span>
+                            </div>
+                            <div class="input-group">
+                                <label>Centro</label>
+                                <input type="number" id="height-mid" placeholder="0">
+                                <span>cm</span>
+                            </div>
+                            <div class="input-group">
+                                <label>Derecha</label>
+                                <input type="number" id="height-right" placeholder="0">
+                                <span>cm</span>
+                            </div>
+                        </div>
+
+                        <div class="measure-tips">
+                            <h4>💡 Consejos clave</h4>
+                            <ul>
+                                <li>Mide desde el suelo terminado (no desde el rodapié)</li>
+                                <li>Si hay moldura en el techo, mide hasta ella</li>
+                                <li>Usa la medida MÁS PEQUEÑA de las tres</li>
+                                <li>Necesitarás la escalera para llegar arriba</li>
+                            </ul>
+                        </div>
+
+                        <div class="measure-error">
+                            <h4>❌ Error común</h4>
+                            <p>Olvidar que hay rodapié o molduras. Si los vas a quitar, mídelo sin ellos. Si se quedan, cuenta el espacio que ocupan.</p>
+                        </div>
+                    </div>
+                    <div class="measure-visual">
+                        <div class="visual-diagram">
+                            <span class="visual-label left">ALTO</span>
+                            <div class="visual-arrow vertical">↑<br>ALTO<br>↓</div>
+                            <span class="visual-point" style="top: 10px; left: 10px;"></span>
+                            <span class="visual-point" style="top: 10px; right: 10px;"></span>
+                            <span class="visual-point" style="bottom: 10px; left: 10px;"></span>
+                            <span class="visual-point" style="bottom: 10px; right: 10px;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Depth -->
+                <div class="measure-step">
+                    <div class="measure-step-content">
+                        <span class="measure-step-num">Medida 3 de 4 — FONDO</span>
+                        <h3>Mide la profundidad disponible</h3>
+                        <p>¿Cuánto espacio tienes desde la pared hacia afuera? Esto determina qué tipo de armario puedes instalar.</p>
+                        
+                        <div class="measure-input">
+                            <div class="input-group">
+                                <label>Fondo disponible</label>
+                                <input type="number" id="depth" placeholder="0">
+                                <span>cm</span>
+                            </div>
+                            <div class="input-validation valid" id="depth-validation" style="display: none;">
+                                ✓ Perfecto para armario estándar
+                            </div>
+                        </div>
+
+                        <div class="measure-tips">
+                            <h4>💡 Referencia de fondo</h4>
+                            <ul>
+                                <li><strong>60cm mínimo:</strong> Armario estándar con barra de colgar</li>
+                                <li><strong>45-50cm:</strong> Armario con barra frontal</li>
+                                <li><strong>35-40cm:</strong> Solo estantes y cajones</li>
+                                <li>Recuerda dejar espacio para abrir las puertas</li>
+                            </ul>
+                        </div>
+
+                        <div class="measure-error">
+                            <h4>❌ Error común</h4>
+                            <p>Olvidar que las puertas necesitan espacio para abrirse. Si es un pasillo estrecho, considera puertas correderas.</p>
+                        </div>
+                    </div>
+                    <div class="measure-visual">
+                        <div class="visual-diagram" style="perspective: 500px;">
+                            <div style="position: absolute; top: 20%; left: 20%; width: 60%; height: 60%; border: 2px solid var(--coral); transform: rotateY(-15deg); display: flex; align-items: center; justify-content: center; color: var(--coral); font-weight: bold;">
+                                FONDO ↔
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Obstacles -->
+                <div class="measure-step">
+                    <div class="measure-step-content">
+                        <span class="measure-step-num">Medida 4 de 4 — OBSTÁCULOS</span>
+                        <h3>Identifica obstáculos</h3>
+                        <p>¿Hay algo que pueda interferir con el armario? Enchufes, interruptores, radiadores, tuberías, vigas...</p>
+                        
+                        <div class="measure-tips" style="background: #E3F2FD; border-left: 3px solid var(--sky);">
+                            <h4 style="color: var(--sky);">📸 Haz fotos de:</h4>
+                            <ul>
+                                <li>El hueco completo, de frente</li>
+                                <li>Cualquier enchufe o interruptor</li>
+                                <li>Esquinas y encuentros con otras paredes</li>
+                                <li>El suelo (¿es recto? ¿hay tarima?)</li>
+                                <li>El techo (¿hay molduras? ¿vigas?)</li>
+                            </ul>
+                        </div>
+
+                        <div class="measure-tips">
+                            <h4>💡 Datos adicionales importantes</h4>
+                            <ul>
+                                <li>¿Hay enchufes? Mide a qué altura y distancia de la esquina</li>
+                                <li>¿Radiador cercano? Mide cuánto sobresale</li>
+                                <li>¿Puerta cerca? ¿Se puede abrir completamente?</li>
+                                <li>¿El suelo es de tarima flotante?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="measure-visual" style="background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);">
+                        <div style="text-align: center; color: var(--charcoal);">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📷</div>
+                            <p style="font-weight: 600;">Sube tus fotos</p>
+                            <p style="font-size: 0.9rem; opacity: 0.8;">Las revisaremos antes de confirmar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Configurator -->
+    <section class="configurator" id="configurar">
+        <div class="section-header">
+            <span class="section-tag">Paso 2</span>
+            <h2>Configura tu Armario</h2>
+        </div>
+        <div class="config-container">
+            <div class="config-preview">
+                <div class="wardrobe-preview">
+                    <div class="wardrobe-section">
+                        <div class="wardrobe-shelf">Estante</div>
+                        <div class="wardrobe-shelf">Estante</div>
+                        <div class="wardrobe-hanging">Barra</div>
+                        <div class="wardrobe-shelf">Cajones</div>
+                    </div>
+                    <div class="wardrobe-section">
+                        <div class="wardrobe-hanging" style="flex: 3;">Barra larga</div>
+                        <div class="wardrobe-shelf">Zapatero</div>
+                    </div>
+                    <div class="wardrobe-section">
+                        <div class="wardrobe-shelf">Estante</div>
+                        <div class="wardrobe-shelf">Estante</div>
+                        <div class="wardrobe-shelf">Estante</div>
+                        <div class="wardrobe-shelf">Estante</div>
+                    </div>
+                </div>
+                <div class="config-dimensions">240 × 250 × 60 cm</div>
+            </div>
+            <div class="config-panel">
+                <div class="config-section">
+                    <h3>Tipo de puerta</h3>
+                    <div class="config-options">
+                        <div class="config-option selected">
+                            <div class="config-option-icon">◧</div>
+                            <div class="config-option-label">Corredera</div>
+                        </div>
+                        <div class="config-option">
+                            <div class="config-option-icon">◨</div>
+                            <div class="config-option-label">Abatible</div>
+                        </div>
+                        <div class="config-option">
+                            <div class="config-option-icon">◫</div>
+                            <div class="config-option-label">Plegable</div>
+                        </div>
+                        <div class="config-option">
+                            <div class="config-option-icon">▢</div>
+                            <div class="config-option-label">Sin puertas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>Color / Acabado</h3>
+                    <div class="config-colors">
+                        <div class="config-color selected" style="background: #F5F5F5;" title="Blanco"></div>
+                        <div class="config-color" style="background: #D7CCC8;" title="Roble claro"></div>
+                        <div class="config-color" style="background: #8D6E63;" title="Nogal"></div>
+                        <div class="config-color" style="background: #5D4037;" title="Wengué"></div>
+                        <div class="config-color" style="background: #37474F;" title="Grafito"></div>
+                        <div class="config-color" style="background: linear-gradient(135deg, #E0E0E0 50%, #90CAF9 50%);" title="Con espejo"></div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>Interior</h3>
+                    <div class="config-options">
+                        <div class="config-option selected">
+                            <div class="config-option-icon">👔</div>
+                            <div class="config-option-label">Mixto</div>
+                        </div>
+                        <div class="config-option">
+                            <div class="config-option-icon">👗</div>
+                            <div class="config-option-label">Más barras</div>
+                        </div>
+                        <div class="config-option">
+                            <div class="config-option-icon">📦</div>
+                            <div class="config-option-label">Más estantes</div>
+                        </div>
+                        <div class="config-option">
+                            <div class="config-option-icon">🗄️</div>
+                            <div class="config-option-label">Más cajones</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-summary">
+                    <div class="config-price">
+                        <span class="config-price-label">Precio estimado</span>
+                        <span class="config-price-value">2.890€</span>
+                    </div>
+                    <p class="config-price-note">IVA e instalación incluidos. Precio final tras validación de medidas.</p>
+                    <div class="config-cta">
+                        <a href="#pedir" class="btn-primary">Solicitar Presupuesto</a>
+                        <a href="tel:+34912345678" class="btn-secondary">
+                            <span>📞</span>
+                            Hablar con un especialista
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guarantees -->
+    <section class="guarantees">
+        <div class="guarantees-grid">
+            <div class="guarantee">
+                <div class="guarantee-icon">✓</div>
+                <h4>Validación de medidas</h4>
+                <p>Revisamos todas las medidas antes de fabricar. Si algo no cuadra, te llamamos.</p>
+            </div>
+            <div class="guarantee">
+                <div class="guarantee-icon">🔄</div>
+                <h4>Derecho a cambios</h4>
+                <p>Puedes modificar la configuración hasta 48h después del pedido.</p>
+            </div>
+            <div class="guarantee">
+                <div class="guarantee-icon">🛡️</div>
+                <h4>Garantía 5 años</h4>
+                <p>Todos nuestros armarios tienen garantía de 5 años en estructura y mecanismos.</p>
+            </div>
+            <div class="guarantee">
+                <div class="guarantee-icon">🚚</div>
+                <h4>Instalación profesional</h4>
+                <p>Nuestro equipo monta el armario. Si hay algún problema con las medidas, lo resolvemos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialist CTA -->
+    <section class="specialist-cta">
+        <h2>¿Prefieres que te ayudemos?</h2>
+        <p>Si no te sientes seguro midiendo o configurando, nuestros especialistas pueden hacerlo por ti. Visita a domicilio gratuita en tu zona.</p>
+        <div class="specialist-options">
+            <a href="tel:+34912345678" class="specialist-btn">
+                <span class="specialist-btn-icon">📞</span>
+                <div>
+                    +34 912 345 678
+                    <span>Llámanos ahora</span>
+                </div>
+            </a>
+            <a href="https://wa.me/34612345678" class="specialist-btn">
+                <span class="specialist-btn-icon">💬</span>
+                <div>
+                    WhatsApp
+                    <span>Escríbenos</span>
+                </div>
+            </a>
+            <a href="#" class="specialist-btn">
+                <span class="specialist-btn-icon">📅</span>
+                <div>
+                    Pedir cita
+                    <span>Visita gratuita</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Casa Baigorri · <a href="#">Aviso Legal</a> · <a href="#">Privacidad</a> · <a href="tel:+34912345678">+34 912 345 678</a></p>
+    </footer>
+
+    <!-- Floating Help -->
+    <div class="help-float">
+        <div class="help-tooltip">
+            <strong>¿Necesitas ayuda?</strong><br>
+            Llámanos al 912 345 678 o pulsa aquí para chatear con un especialista.
+        </div>
+        <span class="help-btn-text">¿Dudas?</span>
+        <a href="tel:+34912345678" class="help-btn">📞</a>
+    </div>
+
+    <script>
+        // Simple interactivity for the configurator
+        document.querySelectorAll('.config-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const parent = option.closest('.config-options');
+                parent.querySelectorAll('.config-option').forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.config-color').forEach(color => {
+            color.addEventListener('click', () => {
+                document.querySelectorAll('.config-color').forEach(c => c.classList.remove('selected'));
+                color.classList.add('selected');
+            });
+        });
+
+        // Depth validation
+        document.getElementById('depth').addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            const validation = document.getElementById('depth-validation');
+            
+            if (val >= 60) {
+                validation.style.display = 'flex';
+                validation.className = 'input-validation valid';
+                validation.innerHTML = '✓ Perfecto para armario estándar con barra';
+            } else if (val >= 45) {
+                validation.style.display = 'flex';
+                validation.className = 'input-validation warning';
+                validation.innerHTML = '⚠️ Barra frontal o estantes recomendado';
+            } else if (val >= 35) {
+                validation.style.display = 'flex';
+                validation.className = 'input-validation warning';
+                validation.innerHTML = '⚠️ Solo estantes y cajones posibles';
+            } else if (val > 0) {
+                validation.style.display = 'flex';
+                validation.className = 'input-validation error';
+                validation.innerHTML = '❌ Fondo insuficiente para armario estándar';
+            } else {
+                validation.style.display = 'none';
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
